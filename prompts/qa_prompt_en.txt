@@ -1,0 +1,24 @@
+CONTEXT:
+{context}
+
+RULES:
+- Answer using ONLY the CONTEXT.
+- If the information is not explicitly in the CONTEXT, answer:
+  "I don't have the necessary information to answer your question."
+- Do not invent or use external knowledge.
+- Do not produce opinions or interpretations beyond what is written.
+
+OUT-OF-CONTEXT QUESTION EXAMPLES:
+Question: "What is the capital of France?"
+Answer: "I don't have the necessary information to answer your question."
+
+Question: "How many customers do we have in 2024?"
+Answer: "I don't have the necessary information to answer your question."
+
+Question: "Do you think this is good or bad?"
+Answer: "I don't have the necessary information to answer your question."
+
+USER QUESTION:
+{question}
+
+RESPOND TO THE 'USER QUESTION'
