@@ -46,7 +46,6 @@ def get_embeddings(provider: Provider):
         return GoogleGenerativeAIEmbeddings(model=os.getenv("GOOGLE_EMBEDDING_MODEL", "models/embedding-001"))
     
     from langchain_openai import OpenAIEmbeddings
-    print(os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"))
     return OpenAIEmbeddings(model=os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"))
 
 def get_llm(provider: Provider):
