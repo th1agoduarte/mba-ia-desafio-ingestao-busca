@@ -109,7 +109,7 @@ python src/ingest.py --pdf ./document.pdf
 ```bash
 python src/chat.py
 ```
-#### Obs: Caso queira iniciar o chat sem fazer a ingestão de dados, o chat irá perguntar sem que quer fazer a ingestao de dados.
+#### Obs: Caso queira iniciar o chat sem fazer a ingestão de dados, o chat irá perguntar se quer fazer a ingestao de dados.
 
 Exemplo no CLI (PT):
 ```
