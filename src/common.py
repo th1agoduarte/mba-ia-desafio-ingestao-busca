@@ -16,9 +16,14 @@ def validate_environment(required_vars: list[str] = None):
     if missing_vars:
         raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
-def ask_provider_interactively(default: Provider | None = None) -> Provider:
+def normalize_for_psycopg(url: str) -> str:
+    if url.startswith("postgresql+psycopg://"):
+        return url.replace("postgresql+psycopg://", "postgresql://", 1)
+    return url
+
+def ask_provider_interactively(default: Provider | None = None, sufixo: str = "") -> Provider:
     choices = {"1": "openai", "2": "google"}
-    prompt = "Escolha o provedor / Choose provider [1=OpenAI, 2=Google]"
+    prompt = f"{sufixo} Escolha o provedor / Choose provider [1=OpenAI, 2=Google]"
     if default:
         prompt += f" (ENTER={default})"
     prompt += ": "
@@ -33,7 +38,7 @@ def ask_provider_interactively(default: Provider | None = None) -> Provider:
             return choices[sel]
         if sel.lower() in {"openai", "google"}:
             return sel  # type: ignore[return-value]
-        print("Opção inválida. Digite 1, 2, 'openai' ou 'google'.")
+        print(f"{sufixo}Opção inválida. Digite 1, 2, 'openai' ou 'google'.")
 
 def get_embeddings(provider: Provider):
     if provider == "google":
@@ -41,6 +46,7 @@ def get_embeddings(provider: Provider):
         return GoogleGenerativeAIEmbeddings(model=os.getenv("GOOGLE_EMBEDDING_MODEL", "models/embedding-001"))
     
     from langchain_openai import OpenAIEmbeddings
+    print(os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"))
     return OpenAIEmbeddings(model=os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"))
 
 def get_llm(provider: Provider):
