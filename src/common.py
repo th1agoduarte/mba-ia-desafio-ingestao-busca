@@ -52,10 +52,10 @@ def get_llm(provider: Provider):
     if provider == "google":
         from langchain_google_genai import ChatGoogleGenerativeAI
         model = os.getenv("GOOGLE_LLM_MODEL", "gemini-2.5-flash-lite")
-        return ChatGoogleGenerativeAI(model=model, temperature=0)
+        return ChatGoogleGenerativeAI(model=model, temperature=os.getenv("LLM_TEMPERATURE", 0))
     from langchain_openai import ChatOpenAI
     model = os.getenv("OPENAI_LLM_MODEL", "gpt-5-nano")
-    return ChatOpenAI(model=model, temperature=0)
+    return ChatOpenAI(model=model, temperature=os.getenv("LLM_TEMPERATURE", 0))
 
 def pick_default_provider_from_env() -> Provider | None:
     has_openai = bool(os.getenv("OPENAI_API_KEY", "").strip())
@@ -64,6 +64,8 @@ def pick_default_provider_from_env() -> Provider | None:
         return "openai"
     if has_google and not has_openai:
         return "google"
+    if has_openai and has_google:
+        return "openai"
     return None
 
 def load_prompt_text(path: str) -> str:
